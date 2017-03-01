@@ -5,6 +5,9 @@ export class Quake {
   constructor() {
 // what is essential???
   }
+  eventid(value) {
+    return arguments.length ? (this._eventid = value, this) : this._eventid;
+  }
   time(value) {
     return arguments.length ? (this._time = value, this) : this._time;
   }
