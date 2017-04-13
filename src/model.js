@@ -277,4 +277,15 @@ export class Seismogram {
   seisId() {
    return (this.codes()+"_"+this._start.toISOString()+"_"+this._end.toISOString()).replace(/\./g,'_').replace(/\:/g,'');
   }
+  clone() {
+    let out = new Seismogram(this.y().slice(),
+                          this.sampleRate(),
+                          this.start());
+    out._netCode = this._netCode;
+    out._staCode = this._staCode;
+    out._locId = this._locId;
+    out._chanCode = this._chanCode;
+console.log("Inside clone(): "+out.codes());
+    return out;
+  }
 }
