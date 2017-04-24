@@ -173,6 +173,9 @@ export class Channel {
   locationId(value) {
     return arguments.length ? (this._locationId = value, this) : this._locationId;
   }
+  locationCode(value) {
+    return arguments.length ? (this._locationId = value, this) : this._locationId;
+  }
   startDate(value) {
     return arguments.length ? (this._startDate = value, this) : this._startDate;
   }
@@ -204,7 +207,24 @@ export class Channel {
     return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
   }
   instrumentSensitivity(value) {
-    return arguments.length ? (this._instrumentSensitivity = value, this) : this._instrumentSensitivity;
+    if (arguments.length) {
+      // setter
+      if (typeof this._response == 'undefined') {
+        this._response = new Response(value);
+      } else {
+        this._response._instrumentSensitivity = value;
+      }
+      return this;
+    } else {
+      if (this._response) {
+        return this._response._instrumentSensitivity;
+      } else {
+        return 'undefined';
+      }
+    }
+  }
+  response(value) {
+    return arguments.length ? (this._response = value, this) : this._response;
   }
 
   codes() {
@@ -230,6 +250,130 @@ export class InstrumentSensitivity {
   }
   outputUnits(value) {
     return arguments.length ? (this._outputUnits = value, this) : this._outputUnits;
+  }
+
+}
+
+export class Response {
+  constructor(instrumentSensitivity) {
+    this._instrumentSensitivity = instrumentSensitivity;
+  }
+  instrumentSensitivity(value) {
+    return arguments.length ? (this._instrumentSensitivity = value, this) : this._instrumentSensitivity;
+  }
+  stages(value) {
+    return arguments.length ? (this._stages = value, this) : this._stages;
+  }
+}
+
+export class Stage {
+  constructor(filter, decimation, gain) {
+    this._filter = filter;
+    this._decimation = decimation;
+    this._gain = gain;
+  }
+  filter(value) {
+    return arguments.length ? (this._filter = value, this) : this._filter;
+  }
+  decimation(value) {
+    return arguments.length ? (this._decimation = value, this) : this._decimation;
+  }
+  gain(value) {
+    return arguments.length ? (this._gain = value, this) : this._gain;
+  }
+}
+
+export class AbstractFilterType {
+  constructor(inputUnits, outputUnits) {
+    this._inputUnits = inputUnits;
+    this._outputUnits = outputUnits;
+  }
+  name(value) {
+    return arguments.length ? (this._name = value, this) : this._name;
+  }
+  description(value) {
+    return arguments.length ? (this._description = value, this) : this._description;
+  }
+  inputUnits(value) {
+    return arguments.length ? (this._inputUnits = value, this) : this._inputUnits;
+  }
+  outputUnits(value) {
+    return arguments.length ? (this._outputUnits = value, this) : this._outputUnits;
+  }
+}
+
+export class PolesZeros extends AbstractFilterType {
+  constructor(inputUnits, outputUnits) {
+    super(inputUnits, outputUnits);
+  }
+  pzTransferFunctionType(value) {
+    return arguments.length ? (this._pzTransferFunctionType = value, this) : this._pzTransferFunctionType;
+  }
+  normalizationFactor(value) {
+    return arguments.length ? (this._normalizationFactor = value, this) : this._normalizationFactor;
+  }
+  normalizationFrequency(value) {
+    return arguments.length ? (this._normalizationFrequency = value, this) : this._normalizationFrequency;
+  }
+  zeros(value) {
+    return arguments.length ? (this._zeros = value, this) : this._zeros;
+  }
+  poles(value) {
+    return arguments.length ? (this._poles = value, this) : this._poles;
+  }
+}
+
+export class FIR extends AbstractFilterType {
+  constructor(inputUnits, outputUnits) {
+    super(inputUnits, outputUnits);
+  }
+  symmetry(value) {
+    return arguments.length ? (this._symmetry = value, this) : this._symmetry;
+  }
+  numerator(value) {
+    return arguments.length ? (this._numerator = value, this) : this._numerator;
+  }
+}
+
+export class CoefficientsFilter extends AbstractFilterType {
+  constructor(inputUnits, outputUnits) {
+    super(inputUnits, outputUnits);
+  }
+  cfTransferFunction(value) {
+    return arguments.length ? (this._cfTransferFunction = value, this) : this._cfTransferFunction;
+  }
+  numerator(value) {
+    return arguments.length ? (this._numerator= value, this) : this._numerator;
+  }
+  denominator(value) {
+    return arguments.length ? (this._denominator= value, this) : this._denominator;
+  }
+}
+
+export class Decimation {
+  inputSampleRate(value) {
+    return arguments.length ? (this._inputSampleRate= value, this) : this._inputSampleRate;
+  }
+  factor(value) {
+    return arguments.length ? (this._factor= value, this) : this._factor;
+  }
+  offset(value) {
+    return arguments.length ? (this._offset= value, this) : this._offset;
+  }
+  delay(value) {
+    return arguments.length ? (this._delay= value, this) : this._delay;
+  }
+  correction(value) {
+    return arguments.length ? (this._correction= value, this) : this._correction;
+  }
+}
+
+export class Gain {
+  value(value) {
+    return arguments.length ? (this._value= value, this) : this._value;
+  }
+  frequency(value) {
+    return arguments.length ? (this._frequency= value, this) : this._frequency;
   }
 
 }
@@ -289,3 +433,14 @@ console.log("Inside clone(): "+out.codes());
     return out;
   }
 }
+
+// allow overriding the complex object to use
+// if OregonDSP is loaded we want to use 
+// its Complex instead of the simple one defined here
+export function createComplex(real, imag) {
+  return {
+    real: real,
+    imag: imag
+  };
+}
+
