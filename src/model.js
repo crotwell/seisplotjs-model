@@ -429,7 +429,6 @@ export class Seismogram {
     out._staCode = this._staCode;
     out._locId = this._locId;
     out._chanCode = this._chanCode;
-console.log("Inside clone(): "+out.codes());
     return out;
   }
 }
