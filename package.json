@@ -1,6 +1,6 @@
 {
   "name": "seisplotjs-model",
-  "version": "1.0.0",
+  "version": "1.0.1-SNAPSHOT",
   "description": "Classes for various objects used in seisplotjs packages.",
   "main": "./lib/model.js",
   "dependencies": {
