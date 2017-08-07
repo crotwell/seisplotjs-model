@@ -233,11 +233,11 @@ export class Channel {
 }
 
 export class InstrumentSensitivity {
-  constructor(sensitivity, frequency, inputUnit, outputUnit) {
+  constructor(sensitivity, frequency, inputUnits, outputUnits) {
     this._sensitivity = sensitivity;
     this._frequency = frequency;
-    this._inputUnit = inputUnit;
-    this._outputUnit = outputUnit;
+    this._inputUnits = inputUnits;
+    this._outputUnits = outputUnits;
   }
   sensitivity(value) {
     return arguments.length ? (this._sensitivity = value, this) : this._sensitivity;
