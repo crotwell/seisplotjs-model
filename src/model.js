@@ -419,7 +419,7 @@ export class Seismogram {
     return this._netCode+"."+this._staCode+"."+this._locId+"."+this._chanCode;
   }
   seisId() {
-   return (this.codes()+"_"+this._start.toISOString()+"_"+this._end.toISOString()).replace(/\./g,'_').replace(/\:/g,'');
+   return (this.codes()+"_"+this._start.toISOString()+"_"+this._end.toISOString()).replace(/\./g,'_').replace(/:/g,'');
   }
   clone() {
     let out = new Seismogram(this.y().slice(),
