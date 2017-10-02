@@ -411,7 +411,10 @@ export class Seismogram {
   y(value) {
     return arguments.length ? (this._y = value, this) : this._y;
   }
-  
+  yValueAt(i) {
+    return this._y[i];
+  }
+
   timeOfSample(i) {
     return new Date(this._start.getTime() + 1000*i/this._sampleRate);
   }
@@ -434,7 +437,7 @@ export class Seismogram {
 }
 
 // allow overriding the complex object to use
-// if OregonDSP is loaded we want to use 
+// if OregonDSP is loaded we want to use
 // its Complex instead of the simple one defined here
 export function createComplex(real, imag) {
   return {
@@ -442,4 +445,3 @@ export function createComplex(real, imag) {
     imag: imag
   };
 }
-
