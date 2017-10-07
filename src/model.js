@@ -383,6 +383,10 @@ export class Seismogram {
     this._y = yArray;
     this._sampleRate = sampleRate;
     this._start = start;
+    this._netCode = null;
+    this._staCode = null;
+    this._locCode = null;
+    this._chanCode = null;
   }
   sampleRate(value) {
     return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
@@ -403,7 +407,10 @@ export class Seismogram {
     return arguments.length ? (this._staCode = value, this) : this._staCode;
   }
   locId(value) {
-    return arguments.length ? (this._locId = value, this) : this._locId;
+    return this.locCode(value);
+  }
+  locCode(value) {
+    return arguments.length ? (this._locCode = value, this) : this._locCode;
   }
   chanCode(value) {
     return arguments.length ? (this._chanCode = value, this) : this._chanCode;
@@ -419,7 +426,7 @@ export class Seismogram {
     return new Date(this._start.getTime() + 1000*i/this._sampleRate);
   }
   codes()  {
-    return this._netCode+"."+this._staCode+"."+this._locId+"."+this._chanCode;
+    return this._netCode+"."+this._staCode+"."+this._locCode+"."+this._chanCode;
   }
   seisId() {
    return (this.codes()+"_"+this._start.toISOString()+"_"+this._end.toISOString()).replace(/\./g,'_').replace(/:/g,'');
@@ -430,7 +437,7 @@ export class Seismogram {
                           this.start());
     out._netCode = this._netCode;
     out._staCode = this._staCode;
-    out._locId = this._locId;
+    out._locCode = this._locCode;
     out._chanCode = this._chanCode;
     return out;
   }
