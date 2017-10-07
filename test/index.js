@@ -1,0 +1,24 @@
+QUnit.test("simple seismogram creation", function (assert) {
+  let yValues = [0, 1, 2];
+  let sampleRate = 20.0;
+  let start = new Date();
+  let netCode = "XX";
+  let staCode = "ABCD";
+  let locCode = "00";
+  let chanCode = "BHZ";
+  let seis = new Seismogram(yValues, sampleRate, start);
+  seis.netCode(netCode).staCode(staCode).locCode(locCode).chanCode(chanCode);
+  assert.equal(seis.y().length, 3, "seis length");
+  assert.equal(seis.yValueAt(0), 0, "y[0]");
+  assert.equal(seis.yValueAt(0), 0, "y[1]");
+  assert.equal(seis.yValueAt(0), 0, "y[2]");
+  assert.equal(seis.sampleRate(), sampleRate, "sampleRate");
+  assert.equal(seis.start(), start, "start");
+  assert.equal(seis.netCode(), netCode, "netCode");
+  assert.equal(seis.staCode(), staCode, "staCode");
+  assert.equal(seis.locCode(), locCode, "locCode");
+  assert.equal(seis.chanCode(), chanCode, "chanCode");
+  assert.equal(seis.numPoints(), yValues.length, "numPoints");
+  assert.equal(seis.timeOfSample(0).toISOString(), start.toISOString(), "timeOfSample "+seis.timeOfSample(0).toISOString());
+  assert.equal(seis.codes(), netCode+"."+staCode+"."+locCode+"."+chanCode, "codes");
+});
