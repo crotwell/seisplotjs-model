@@ -9,9 +9,9 @@ QUnit.test("simple seismogram creation", function (assert) {
   let seis = new Seismogram(yValues, sampleRate, start);
   seis.netCode(netCode).staCode(staCode).locCode(locCode).chanCode(chanCode);
   assert.equal(seis.y().length, 3, "seis length");
-  assert.equal(seis.yValueAt(0), 0, "y[0]");
-  assert.equal(seis.yValueAt(0), 0, "y[1]");
-  assert.equal(seis.yValueAt(0), 0, "y[2]");
+  assert.equal(seis.yAtIndex(0), 0, "y[0]");
+  assert.equal(seis.yAtIndex(1), 1, "y[1]");
+  assert.equal(seis.yAtIndex(2), 2, "y[2]");
   assert.equal(seis.sampleRate(), sampleRate, "sampleRate");
   assert.equal(seis.start(), start, "start");
   assert.equal(seis.netCode(), netCode, "netCode");
@@ -21,4 +21,44 @@ QUnit.test("simple seismogram creation", function (assert) {
   assert.equal(seis.numPoints(), yValues.length, "numPoints");
   assert.equal(seis.timeOfSample(0).toISOString(), start.toISOString(), "timeOfSample "+seis.timeOfSample(0).toISOString());
   assert.equal(seis.codes(), netCode+"."+staCode+"."+locCode+"."+chanCode, "codes");
+});
+
+QUnit.test("seismogram clone", function (assert) {
+  let yValues = [0, 1, 2];
+  let sampleRate = 20.0;
+  let start = new Date();
+  let netCode = "XX";
+  let staCode = "ABCD";
+  let locCode = "00";
+  let chanCode = "BHZ";
+  let seis = new Seismogram(yValues.slice(), sampleRate, start);
+  seis.netCode(netCode).staCode(staCode).locCode(locCode).chanCode(chanCode);
+  let cloneSeis = seis.clone();
+  assert.equal(cloneSeis.y().length, seis.y().length, "seis length");
+  assert.equal(cloneSeis.yAtIndex(0), yValues[0], "y[0]");
+  assert.equal(cloneSeis.yAtIndex(1), yValues[1], "y[1]");
+  assert.equal(cloneSeis.yAtIndex(2), yValues[2], "y[2]");
+  assert.equal(cloneSeis.yAtIndex(0), seis.yAtIndex(0), "y[0]");
+  assert.equal(cloneSeis.yAtIndex(1), seis.yAtIndex(1), "y[1]");
+  assert.equal(cloneSeis.yAtIndex(2), seis.yAtIndex(2), "y[2]");
+  assert.equal(cloneSeis.sampleRate(), seis.sampleRate(), "sampleRate");
+  assert.equal(cloneSeis.start(), seis.start(), "start");
+  assert.equal(cloneSeis.start().toISOString(), seis.start().toISOString(), "start as string");
+  assert.equal(cloneSeis.netCode(), seis.netCode(), "netCode");
+  assert.equal(cloneSeis.staCode(), seis.staCode(), "staCode");
+  assert.equal(cloneSeis.locCode(), seis.locCode(), "locCode");
+  assert.equal(cloneSeis.chanCode(), seis.chanCode(), "chanCode");
+  assert.equal(cloneSeis.numPoints(), seis.numPoints(), "numPoints");
+  assert.equal(cloneSeis.timeOfSample(0).toISOString(), seis.timeOfSample(0).toISOString(), "timeOfSample "+seis.timeOfSample(0).toISOString());
+  assert.equal(cloneSeis.codes(), seis.codes(), "codes");
+  assert.equal(cloneSeis.end().toISOString(), seis.end().toISOString(), "end");
+  // test after replace data Array
+  let x = new Array(seis.y().length);
+  x[0] = 4;
+  x[1] = 5;
+  x[2] = 6;
+  cloneSeis.y(x);
+  assert.equal(cloneSeis.yAtIndex(0), x[0], "replace y[0]");
+  assert.equal(cloneSeis.yAtIndex(1), x[1], "replace y[1]");
+  assert.equal(cloneSeis.yAtIndex(2), x[2], "replace y[2]");
 });

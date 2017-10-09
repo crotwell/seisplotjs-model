@@ -418,7 +418,7 @@ export class Seismogram {
   y(value) {
     return arguments.length ? (this._y = value, this) : this._y;
   }
-  yValueAt(i) {
+  yAtIndex(i) {
     return this._y[i];
   }
 
