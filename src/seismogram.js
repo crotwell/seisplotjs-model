@@ -1,9 +1,10 @@
+import { moment, checkStringOrDate } from './util';
 
 export class Seismogram {
   constructor(yArray, sampleRate, start) {
     this._y = yArray;
     this._sampleRate = sampleRate;
-    this._start = start;
+    this._start = checkStringOrDate(start);
     this._netCode = null;
     this._staCode = null;
     this._locCode = null;
@@ -13,7 +14,7 @@ export class Seismogram {
     return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
   }
   start(value) {
-    return arguments.length ? (this._start = value, this) : this._start;
+    return arguments.length ? (this._start = checkStringOrDate(value), this) : this._start;
   }
   end() {
     return this.timeOfSample(this.numPoints()-1);
@@ -44,7 +45,7 @@ export class Seismogram {
   }
 
   timeOfSample(i) {
-    return new Date(this._start.getTime() + 1000*i/this._sampleRate);
+    return moment.utc(this._start).add(i/this._sampleRate, 'seconds');
   }
   codes()  {
     return this._netCode+"."+this._staCode+"."+this._locCode+"."+this._chanCode;

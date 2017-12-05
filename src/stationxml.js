@@ -1,3 +1,4 @@
+import { moment, checkStringOrDate } from './util';
 
 // StationXML classes
 
@@ -10,10 +11,10 @@ export class Network {
     return arguments.length ? (this._networkCode = value, this) : this._networkCode;
   }
   startDate(value) {
-    return arguments.length ? (this._startDate = value, this) : this._startDate;
+    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
   }
   endDate(value) {
-    return arguments.length ? (this._endDate = value, this) : this._endDate;
+    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
   }
   restrictedStatus(value) {
     return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;
@@ -26,6 +27,10 @@ export class Network {
   }
   codes() {
     return this.networkCode();
+  }
+  isTempNet() {
+    const first = this.networkCode().charAt(0);
+    return first === 'X' || first === 'Y' || first === 'Z';
   }
 }
 
@@ -41,10 +46,10 @@ export class Station {
     return arguments.length ? (this._stationCode = value, this) : this._stationCode;
   }
   startDate(value) {
-    return arguments.length ? (this._startDate = value, this) : this._startDate;
+    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
   }
   endDate(value) {
-    return arguments.length ? (this._endDate = value, this) : this._endDate;
+    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
   }
   restrictedStatus(value) {
     return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;
@@ -88,10 +93,10 @@ export class Channel {
     return arguments.length ? (this._locationId = value, this) : this._locationId;
   }
   startDate(value) {
-    return arguments.length ? (this._startDate = value, this) : this._startDate;
+    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
   }
   endDate(value) {
-    return arguments.length ? (this._endDate = value, this) : this._endDate;
+    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
   }
   restrictedStatus(value) {
     return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;

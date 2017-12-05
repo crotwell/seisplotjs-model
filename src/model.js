@@ -1,6 +1,7 @@
 
+import { moment, checkStringOrDate } from './util';
 
-import {Quake, Magnitude, Arrival, Pick} from './quakeml';
+import {Quake, Magnitude, Origin, Arrival, Pick} from './quakeml';
 import {Network,
         Station,
         Channel,
@@ -18,8 +19,11 @@ import {Seismogram } from './seismogram';
 
 
 /* re-export */
-export  { Quake,
+export  { moment,
+          checkStringOrDate,
+          Quake,
           Magnitude,
+          Origin,
           Arrival,
           Pick,
           Network,
