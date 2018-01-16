@@ -1,7 +1,7 @@
 QUnit.test("simple seismogram creation", function (assert) {
   let yValues = [0, 1, 2];
   let sampleRate = 20.0;
-  let start = new Date();
+  let start = moment.utc();
   let netCode = "XX";
   let staCode = "ABCD";
   let locCode = "00";
