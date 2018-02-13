@@ -1,7 +1,19 @@
 
 import { moment, checkStringOrDate } from './util';
 
+import { knownDataCentersJsonURL,
+        getKnownDataCenters,
+        updateKnownDataCenters,
+        doesSupport,
+        serviceHost,
+        servicePort,
+        DS, ST, EV, RS,
+        allDCTypes,
+        getDefaultDC,
+        getDataCenter } from './knownDataCenters';
+
 import {Quake, Magnitude, Origin, Arrival, Pick} from './quakeml';
+
 import {Network,
         Station,
         Channel,
@@ -21,6 +33,16 @@ import {Seismogram } from './seismogram';
 /* re-export */
 export  { moment,
           checkStringOrDate,
+          knownDataCentersJsonURL,
+          getKnownDataCenters,
+          updateKnownDataCenters,
+          doesSupport,
+          serviceHost,
+          servicePort,
+          DS, ST, EV, RS,
+          allDCTypes,
+          getDefaultDC,
+          getDataCenter,
           Quake,
           Magnitude,
           Origin,
