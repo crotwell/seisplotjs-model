@@ -21,7 +21,7 @@ function findTypeOf(value) {
     switch(type) {
         case 'object':
         return value === null ? 'null' : Object.prototype.toString.call(value).
-            match(/^\[object (.*)\]$/)[1]
+            match(/^\[object (.*)\]$/)[1];
 
         case 'function':
         return 'Function';

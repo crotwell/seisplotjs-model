@@ -1,4 +1,4 @@
-import { moment, checkStringOrDate } from './util';
+import { checkStringOrDate } from './util';
 
 // StationXML classes
 
