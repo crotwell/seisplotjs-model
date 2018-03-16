@@ -1,5 +1,7 @@
 
-import { moment, checkStringOrDate } from './util';
+import { moment, checkStringOrDate, cleanUnit, UNITS } from './util';
+
+import { Qty } from 'js-quantities';
 
 import { knownDataCentersJsonURL,
         getKnownDataCenters,
@@ -32,7 +34,10 @@ import {Seismogram } from './seismogram';
 
 /* re-export */
 export  { moment,
+          Qty,
           checkStringOrDate,
+          cleanUnit,
+          UNITS,
           knownDataCentersJsonURL,
           getKnownDataCenters,
           updateKnownDataCenters,
@@ -61,6 +66,7 @@ export  { moment,
           Decimation,
           Gain,
           Seismogram };
+
 
 // allow overriding the complex object to use
 // if OregonDSP is loaded we want to use

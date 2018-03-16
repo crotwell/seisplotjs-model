@@ -4,7 +4,8 @@
   "description": "Classes for various objects used in seisplotjs packages.",
   "main": "./lib/model.js",
   "dependencies": {
-    "moment": "^2.20.1"
+    "moment": "^2.20.1",
+    "js-quantities": "1.7.0"
   },
   "scripts": {
     "lint": "eslint 'src/*.js'",

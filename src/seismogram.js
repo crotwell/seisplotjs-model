@@ -9,6 +9,7 @@ export class Seismogram {
     this._staCode = null;
     this._locCode = null;
     this._chanCode = null;
+    this._yUnit = 'count';
   }
   sampleRate(value) {
     return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
@@ -36,6 +37,9 @@ export class Seismogram {
   }
   chanCode(value) {
     return arguments.length ? (this._chanCode = value, this) : this._chanCode;
+  }
+  yUnit(value) {
+    return arguments.length ? (this._yUnit = value, this) : this._yUnit;
   }
   y(value) {
     return arguments.length ? (this._y = value, this) : this._y;

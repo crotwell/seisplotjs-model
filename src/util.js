@@ -30,3 +30,20 @@ function findTypeOf(value) {
         return type;
     }
 }
+
+export function cleanUnitName(u) {
+  if (u instanceof String || typeof u === "string") {
+    return new Qty(u.replace('**', ''));
+  } else {
+    throw new Error("Unit name is not a string: '"+u+"'");
+  }
+}
+
+
+// common units
+export const UNITS = {
+  COUNT: new Qty('count'),
+  METER: new Qty('m'),
+  METER_PER_SECOND: new Qty('m/s'),
+  METER_PER_SECOND_PER_SECOND: new Qty('m/s2'),
+}
