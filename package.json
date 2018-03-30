@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "eslint 'src/*.js'",
     "test": "qunit -c ./lib/model.js -t ./test/*.js",
+    "doc": "documentation build src/knownDataCenters.js src/quakeml.js src/stationxml.js src/seismogram.js src/util.js --github -o docs -f html --document-exported ",
     "compile": "babel --presets env -d lib/ src/",
     "standalone": "browserify src/model.js --standalone seisplotjs_model -o seisplotjs_model_${npm_package_version}_standalone.js -t [ babelify --presets [ env ] ]",
     "prepare": "npm run compile"
