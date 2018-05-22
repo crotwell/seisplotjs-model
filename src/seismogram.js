@@ -1,5 +1,13 @@
+// flow
+
 import { moment, checkStringOrDate } from './util';
 
+/**
+* A Seismogram object.
+* @param {Array} yArray array of Y sample values, ie the timeseries
+* @param {number} sampleRate sample rate of the seismogram, hertz
+* @param {moment} start start time of seismogrm as a momentjs moment in utc or a string that can be parsed
+*/
 export class Seismogram {
   constructor(yArray, sampleRate, start) {
     this._y = yArray;
@@ -11,6 +19,12 @@ export class Seismogram {
     this._chanCode = null;
     this._yUnit = 'count';
   }
+/**
+ * Get or set the sampleRate.
+ * If value is defined, sets the sampleRate and returns the seismogram.
+ * If undefined, returns the sampleRate.
+ * @returns {number} the sample rate in hertz or this.
+ */
   sampleRate(value) {
     return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
   }

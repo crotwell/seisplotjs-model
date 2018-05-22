@@ -1,129 +1,385 @@
-import { checkStringOrDate } from './util';
+// @flow
+
+import { checkStringOrDate, hasArgs, hasNoArgs, isStringArg, isNumArg } from './util';
+
+
+// flow type for moment type
+import { moment } from './util';
+//import type { moment as momentType } from 'moment';
+import type {ComplexType } from './util';
+
+
 
 // StationXML classes
 
 export class Network {
-  constructor(networkCode) {
+  /** @private */
+  _networkCode: string;
+    /** @private */
+  _startDate: moment;
+    /** @private */
+  _endDate: moment;
+    /** @private */
+  _restrictedStatus: string;
+    /** @private */
+  _description: string;
+    /** @private */
+  _stations: Array<Station>;
+  constructor(networkCode: string) {
     this.networkCode(networkCode);
     this._stations = [];
   }
-  networkCode(value) {
-    return arguments.length ? (this._networkCode = value, this) : this._networkCode;
+  /** gets or sets the networkCode.
+   *  @param value set the networkCode
+   *  @returns Network if a value is passed in, networkCode if no arguments
+  */
+  networkCode(value?: string): string | Network {
+    if (isStringArg(value)) {
+      this._networkCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._networkCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  startDate(value) {
-    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
+
+  /** gets or sets the startDate.
+   *  @param value set the startDate
+   *  @returns Network if a value is passed in, startDate if no arguments
+  */
+  startDate(value?: moment | string): moment | Network {
+    if (hasNoArgs(value)) {
+      return this._startDate;
+    } else if (hasArgs(value)) {
+      this._startDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  endDate(value) {
-    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
+  endDate(value?: moment): moment | Network {
+    if (hasNoArgs(value)) {
+      return this._endDate;
+    } else if (hasArgs(value)) {
+      this._endDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  restrictedStatus(value) {
-    return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;
+  restrictedStatus(value?: string): string | Network {
+    if (isStringArg(value)) {
+      this._restrictedStatus = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._restrictedStatus;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  description(value) {
-    return arguments.length ? (this._description = value, this) : this._description;
+  description(value?: string): string | Network {
+    if (isStringArg(value)) {
+      this._description = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._description;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  stations(value) {
-    return arguments.length ? (this._stations = value, this) : this._stations;
+  stations(value?: Array<Station>): Array<Station> | Network {
+    return (value instanceof Array) ? (this._stations = value, this) : this._stations;
   }
-  codes() {
-    return this.networkCode();
+  codes(): string {
+    return this._networkCode;
   }
-  isTempNet() {
-    const first = this.networkCode().charAt(0);
-    return first === 'X' || first === 'Y' || first === 'Z';
+  isTempNet(): boolean {
+    const first = this._networkCode.charAt(0);
+    return first === 'X' || first === 'Y' || first === 'Z' || (first >= '0' && first <= '9');
   }
 }
 
 export class Station {
-  constructor(network, stationCode) {
+    /** @private */
+  _network: Network;
+    /** @private */
+  _stationCode: string;
+    /** @private */
+  _startDate: moment;
+    /** @private */
+  _endDate: moment;
+    /** @private */
+  _restrictedStatus: string;
+    /** @private */
+  _name: string;
+    /** @private */
+  _latitude: number;
+    /** @private */
+  _longitude: number;
+    /** @private */
+  _elevation: number;
+    /** @private */
+  _channels: Array<Channel>;
+  constructor(network: Network, stationCode: string) {
     this._network = network;
     this._stationCode = stationCode;
+    this._channels = [];
   }
-  network(value) {
-    return arguments.length ? (this._network = value, this) : this._network;
+  /** Gets or sets the network. */
+  network(value?: Network): Network | Station {
+    return (value instanceof Network) ? (this._network = value, this) : this._network;
   }
-  stationCode(value) {
-    return arguments.length ? (this._stationCode = value, this) : this._stationCode;
+  stationCode(value?: string): string | Station {
+    if (isStringArg(value)) {
+      this._stationCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._stationCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  startDate(value) {
-    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
+  startDate(value?: moment): moment | Station {
+    if (hasNoArgs(value)) {
+      return this._startDate;
+    } else if (hasArgs(value)) {
+      this._startDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  endDate(value) {
-    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
+  endDate(value?: moment): moment | Station {
+    if (hasNoArgs(value)) {
+      return this._endDate;
+    } else if (hasArgs(value)) {
+      this._endDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  restrictedStatus(value) {
-    return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;
+  restrictedStatus(value?: string): string | Station {
+    if (isStringArg(value)) {
+      this._restrictedStatus = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._restrictedStatus;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  name(value) {
-    return arguments.length ? (this._name = value, this) : this._name;
+  name(value?: string): string | Station {
+    if (isStringArg(value)) {
+      this._name = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._name;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  latitude(value) {
-    return arguments.length ? (this._latitude = value, this) : this._latitude;
+  latitude(value?: number): number | Station {
+    if (isNumArg(value)) {
+      this._latitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._latitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  longitude(value) {
-    return arguments.length ? (this._longitude = value, this) : this._longitude;
+  longitude(value?: number) {
+    if (isNumArg(value)) {
+      this._longitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._longitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  elevation(value) {
-    return arguments.length ? (this._elevation = value, this) : this._elevation;
+  elevation(value?: number) {
+    if (isNumArg(value)) {
+      this._elevation = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._elevation;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  channels(value) {
-    return arguments.length ? (this._channels = value, this) : this._channels;
+  channels(value?: Array<Channel>): Array<Channel> | Station {
+    return (value instanceof Array) ? (this._channels = value, this) : this._channels;
   }
-  codes() {
-    return this.network().codes()+"."+this.stationCode();
+  codes():string {
+    return this.network().codes()+"."+this._stationCode;
   }
 }
 
 export class Channel {
-  constructor(station, channelCode, locationId) {
+    /** @private */
+  _station: Station;
+    /** @private */
+  _locationId: string;
+    /** @private */
+  _channelCode: string;
+    /** @private */
+  _startDate: moment;
+    /** @private */
+  _endDate: moment;
+    /** @private */
+  _restrictedStatus: string;
+    /** @private */
+  _latitude: number;
+    /** @private */
+  _longitude: number;
+    /** @private */
+  _elevation: number;
+    /** @private */
+  _depth: number;
+    /** @private */
+  _azimuth: number;
+    /** @private */
+  _dip: number;
+    /** @private */
+  _sampleRate: number;
+    /** @private */
+  _response: Response;
+  constructor(station: Station, channelCode: string, locationId: string) {
     this._station = station;
     this._channelCode = channelCode;
     this._locationId = locationId;
   }
-  station(value) {
-    return arguments.length ? (this._station = value, this) : this._station;
+  station(value?: Station): Station | Channel {
+    return (value instanceof Station) ? (this._station = value, this) : this._station;
   }
-  channelCode(value) {
-    return arguments.length ? (this._channelCode = value, this) : this._channelCode;
+  channelCode(value?: string): string | Channel {
+    if (isStringArg(value)) {
+      this._channelCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._channelCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  locationId(value) {
-    return arguments.length ? (this._locationId = value, this) : this._locationId;
+  locationId(value?: string): string | Channel {
+    if (isStringArg(value)) {
+      this._locationId = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._locationId;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  locationCode(value) {
-    return arguments.length ? (this._locationId = value, this) : this._locationId;
+  locationCode(value?: string): string | Channel {
+    return this.locationId(value);
   }
-  startDate(value) {
-    return arguments.length ? (this._startDate = checkStringOrDate(value), this) : this._startDate;
+  startDate(value: moment): moment | Channel {
+    if (hasNoArgs(value)) {
+      return this._startDate;
+    } else if (hasArgs(value)) {
+      this._startDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  endDate(value) {
-    return arguments.length ? (this._endDate = checkStringOrDate(value), this) : this._endDate;
+  endDate(value: moment): moment | Channel {
+    if (hasNoArgs(value)) {
+      return this._endDate;
+    } else if (hasArgs(value)) {
+      this._endDate = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+value);
+    }
   }
-  restrictedStatus(value) {
-    return arguments.length ? (this._restrictedStatus = value, this) : this._restrictedStatus;
+  restrictedStatus(value?: string): string | Channel {
+    if (isStringArg(value)) {
+      this._restrictedStatus = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._restrictedStatus;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  latitude(value) {
-    return arguments.length ? (this._latitude = value, this) : this._latitude;
+  latitude(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._latitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._latitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  longitude(value) {
-    return arguments.length ? (this._longitude = value, this) : this._longitude;
+  longitude(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._longitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._longitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  elevation(value) {
-    return arguments.length ? (this._elevation = value, this) : this._elevation;
+  elevation(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._elevation = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._elevation;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  depth(value) {
-    return arguments.length ? (this._depth = value, this) : this._depth;
+  depth(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._depth = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._depth;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  azimuth(value) {
-    return arguments.length ? (this._azimuth = value, this) : this._azimuth;
+  azimuth(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._azimuth = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._azimuth;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  dip(value) {
-    return arguments.length ? (this._dip = value, this) : this._dip;
+  dip(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._dip = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._dip;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  sampleRate(value) {
-    return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
+  sampleRate(value?: number): number | Channel {
+    if (isNumArg(value)) {
+      this._sampleRate = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._sampleRate;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  instrumentSensitivity(value) {
-    if (arguments.length) {
+  instrumentSensitivity(value: InstrumentSensitivity): InstrumentSensitivity | Channel {
+    if (value instanceof InstrumentSensitivity) {
       // setter
       if (typeof this._response == 'undefined') {
         this._response = new Response(value);
@@ -135,161 +391,361 @@ export class Channel {
       if (this._response) {
         return this._response._instrumentSensitivity;
       } else {
-        return 'undefined';
+        throw new Error("no Response or InstrumentSensitivity defined");
       }
     }
   }
-  response(value) {
-    return arguments.length ? (this._response = value, this) : this._response;
+  response(value: Response): Response | Channel {
+    return (value instanceof Response) ? (this._response = value, this) : this._response;
   }
 
-  codes() {
-    return this.station().codes()+"."+this.locationId()+"."+this.channelCode();
+  codes(): string {
+    return this.station().codes()+"."+this._locationId+"."+this._channelCode;
   }
 }
 
 export class InstrumentSensitivity {
-  constructor(sensitivity, frequency, inputUnits, outputUnits) {
+    /** @private */
+  _sensitivity: number;
+    /** @private */
+  _frequency: number;
+    /** @private */
+  _inputUnits: string;
+    /** @private */
+  _outputUnits: string;
+  constructor(sensitivity: number, frequency: number, inputUnits: string, outputUnits: string) {
     this._sensitivity = sensitivity;
     this._frequency = frequency;
     this._inputUnits = inputUnits;
     this._outputUnits = outputUnits;
   }
-  sensitivity(value) {
-    return arguments.length ? (this._sensitivity = value, this) : this._sensitivity;
+  sensitivity(value?: number): number | InstrumentSensitivity {
+    if (isNumArg(value)) {
+      this._sensitivity = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._sensitivity;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  frequency(value) {
-    return arguments.length ? (this._frequency = value, this) : this._frequency;
+  frequency(value?: number): number | InstrumentSensitivity {
+    if (isNumArg(value)) {
+      this._frequency = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._frequency;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  inputUnits(value) {
-    return arguments.length ? (this._inputUnits = value, this) : this._inputUnits;
+  inputUnits(value?: string): string | InstrumentSensitivity {
+    if (isStringArg(value)) {
+      this._inputUnits = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._inputUnits;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  outputUnits(value) {
-    return arguments.length ? (this._outputUnits = value, this) : this._outputUnits;
+  outputUnits(value?: string): string | InstrumentSensitivity {
+    if (isStringArg(value)) {
+      this._outputUnits = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._outputUnits;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
 
 }
 
 export class Response {
-  constructor(instrumentSensitivity) {
+    /** @private */
+  _instrumentSensitivity: InstrumentSensitivity;
+    /** @private */
+  _stages: Array<Stage>;
+  constructor(instrumentSensitivity: InstrumentSensitivity) {
     this._instrumentSensitivity = instrumentSensitivity;
   }
-  instrumentSensitivity(value) {
-    return arguments.length ? (this._instrumentSensitivity = value, this) : this._instrumentSensitivity;
+  instrumentSensitivity(value?: InstrumentSensitivity) {
+    return (value instanceof InstrumentSensitivity) ? (this._instrumentSensitivity = value, this) : this._instrumentSensitivity;
   }
-  stages(value) {
-    return arguments.length ? (this._stages = value, this) : this._stages;
+  stages(value?: Array<Stage>) {
+    return (value instanceof Array) ? (this._stages = value, this) : this._stages;
   }
 }
 
 export class Stage {
-  constructor(filter, decimation, gain) {
+    /** @private */
+  _filter: AbstractFilterType;
+    /** @private */
+  _decimation: Decimation;
+    /** @private */
+  _gain: Gain;
+  constructor(filter: AbstractFilterType, decimation: Decimation, gain: Gain) {
     this._filter = filter;
     this._decimation = decimation;
     this._gain = gain;
   }
-  filter(value) {
-    return arguments.length ? (this._filter = value, this) : this._filter;
+  filter(value?: AbstractFilterType) {
+    return (value instanceof AbstractFilterType) ? (this._filter = value, this) : this._filter;
   }
-  decimation(value) {
-    return arguments.length ? (this._decimation = value, this) : this._decimation;
+  decimation(value?: Decimation) {
+    return (value instanceof Decimation) ? (this._decimation = value, this) : this._decimation;
   }
-  gain(value) {
-    return arguments.length ? (this._gain = value, this) : this._gain;
+  gain(value?: Gain) {
+    return (value instanceof Gain) ? (this._gain = value, this) : this._gain;
   }
 }
 
 export class AbstractFilterType {
-  constructor(inputUnits, outputUnits) {
+    /** @private */
+  _inputUnits: string;
+    /** @private */
+  _outputUnits: string;
+    /** @private */
+  _name: string;
+    /** @private */
+  _description: string;
+  constructor(inputUnits: string, outputUnits: string) {
     this._inputUnits = inputUnits;
     this._outputUnits = outputUnits;
   }
-  name(value) {
-    return arguments.length ? (this._name = value, this) : this._name;
+  name(value?: string) {
+    if (isStringArg(value)) {
+      this._name = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._name;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  description(value) {
-    return arguments.length ? (this._description = value, this) : this._description;
+  description(value?: string) {
+    if (isStringArg(value)) {
+      this._description = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._description;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  inputUnits(value) {
-    return arguments.length ? (this._inputUnits = value, this) : this._inputUnits;
+  inputUnits(value?: string) {
+    if (isStringArg(value)) {
+      this._inputUnits = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._inputUnits;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  outputUnits(value) {
-    return arguments.length ? (this._outputUnits = value, this) : this._outputUnits;
+  outputUnits(value?: string) {
+    if (isStringArg(value)) {
+      this._outputUnits = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._outputUnits;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
 }
 
 export class PolesZeros extends AbstractFilterType {
-  constructor(inputUnits, outputUnits) {
+    /** @private */
+  _pzTransferFunctionType: string;
+    /** @private */
+  _normalizationFactor: number;
+    /** @private */
+  _normalizationFrequency: number;
+    /** @private */
+  _zeros: Array<ComplexType>;
+    /** @private */
+  _poles: Array<ComplexType>;
+  constructor(inputUnits: string, outputUnits: string) {
     super(inputUnits, outputUnits);
   }
-  pzTransferFunctionType(value) {
-    return arguments.length ? (this._pzTransferFunctionType = value, this) : this._pzTransferFunctionType;
+  pzTransferFunctionType(value?: string) {
+    if (isStringArg(value)) {
+      this._pzTransferFunctionType = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._pzTransferFunctionType;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  normalizationFactor(value) {
-    return arguments.length ? (this._normalizationFactor = value, this) : this._normalizationFactor;
+  normalizationFactor(value?: number) {
+    if (isNumArg(value)) {
+      this._normalizationFactor = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._normalizationFactor;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  normalizationFrequency(value) {
-    return arguments.length ? (this._normalizationFrequency = value, this) : this._normalizationFrequency;
+  normalizationFrequency(value?: number) {
+    if (isNumArg(value)) {
+      this._normalizationFrequency = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._normalizationFrequency;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  zeros(value) {
-    return arguments.length ? (this._zeros = value, this) : this._zeros;
+  zeros(value: Array<ComplexType>) {
+    return (value instanceof Array) ? (this._zeros = value, this) : this._zeros;
   }
-  poles(value) {
-    return arguments.length ? (this._poles = value, this) : this._poles;
+  poles(value: Array<ComplexType>) {
+    return (value instanceof Array) ? (this._poles = value, this) : this._poles;
   }
 }
 
 export class FIR extends AbstractFilterType {
-  constructor(inputUnits, outputUnits) {
+  /** @private */
+  _symmetry: string;
+    /** @private */
+  _numerator: Array<ComplexType>;
+  constructor(inputUnits: string, outputUnits: string) {
     super(inputUnits, outputUnits);
   }
-  symmetry(value) {
-    return arguments.length ? (this._symmetry = value, this) : this._symmetry;
+  symmetry(value?: string) {
+    if (isStringArg(value)) {
+      this._symmetry = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._symmetry;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  numerator(value) {
+  numerator(value: Array<ComplexType>) {
     return arguments.length ? (this._numerator = value, this) : this._numerator;
   }
 }
 
 export class CoefficientsFilter extends AbstractFilterType {
-  constructor(inputUnits, outputUnits) {
+  /** @private */
+  _cfTransferFunction: string;
+  /** @private */
+  _numerator: Array<ComplexType>;
+  /** @private */
+  _denominator: Array<ComplexType>;
+  constructor(inputUnits: string, outputUnits: string) {
     super(inputUnits, outputUnits);
   }
-  cfTransferFunction(value) {
-    return arguments.length ? (this._cfTransferFunction = value, this) : this._cfTransferFunction;
+  cfTransferFunction(value?: string) {
+    if (isStringArg(value)) {
+      this._cfTransferFunction = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._cfTransferFunction;
+    } else {
+      throw new Error('value argument is optional or string, but was '+value);
+    }
   }
-  numerator(value) {
+  numerator(value: Array<ComplexType>) {
     return arguments.length ? (this._numerator= value, this) : this._numerator;
   }
-  denominator(value) {
+  denominator(value: Array<ComplexType>) {
     return arguments.length ? (this._denominator= value, this) : this._denominator;
   }
 }
 
 export class Decimation {
-  inputSampleRate(value) {
-    return arguments.length ? (this._inputSampleRate= value, this) : this._inputSampleRate;
+  /** @private */
+  _inputSampleRate: number;
+  /** @private */
+  _factor: number;
+  /** @private */
+  _offset: number;
+  /** @private */
+  _delay: number;
+  /** @private */
+  _correction: number;
+  inputSampleRate(value?: number) {
+    if (isNumArg(value)) {
+      this._inputSampleRate = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._inputSampleRate;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  factor(value) {
-    return arguments.length ? (this._factor= value, this) : this._factor;
+  factor(value?: number) {
+    if (isNumArg(value)) {
+      this._factor = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._factor;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  offset(value) {
-    return arguments.length ? (this._offset= value, this) : this._offset;
+  offset(value?: number) {
+    if (isNumArg(value)) {
+      this._offset = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._offset;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  delay(value) {
-    return arguments.length ? (this._delay= value, this) : this._delay;
+  delay(value?: number) {
+    if (isNumArg(value)) {
+      this._delay = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._delay;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  correction(value) {
-    return arguments.length ? (this._correction= value, this) : this._correction;
+  correction(value?: number) {
+    if (isNumArg(value)) {
+      this._correction = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._correction;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
 }
 
 export class Gain {
-  value(value) {
-    return arguments.length ? (this._value= value, this) : this._value;
+  /** @private */
+  _value: number;
+  /** @private */
+  _frequency: number;
+  value(value?: number) {
+    if (isNumArg(value)) {
+      this._value = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._value;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
-  frequency(value) {
-    return arguments.length ? (this._frequency= value, this) : this._frequency;
+  frequency(value?: number) {
+    if (isNumArg(value)) {
+      this._frequency = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._frequency;
+    } else {
+      throw new Error('value argument is optional or number, but was '+value);
+    }
   }
 
 }

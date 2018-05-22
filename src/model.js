@@ -1,18 +1,23 @@
+// @flow
 
-import { moment, checkStringOrDate, cleanUnit, UNITS } from './util';
+import { moment, createComplex, checkStringOrDate, cleanUnitName, UNITS,
+         hasArgs, hasNoArgs, isStringArg, isNumArg } from './util';
 
-import { Qty } from 'js-quantities';
+//import { Qty } from 'js-quantities';
+import Qty from 'js-quantities';
 
-import { knownDataCentersJsonURL,
-        getKnownDataCenters,
-        updateKnownDataCenters,
-        doesSupport,
-        serviceHost,
-        servicePort,
-        DS, ST, EV, RS,
-        allDCTypes,
-        getDefaultDC,
-        getDataCenter } from './knownDataCenters';
+// import { knownDataCentersJsonURL,
+//         getKnownDataCenters,
+//         updateKnownDataCenters,
+//         doesSupport,
+//         serviceHost,
+//         servicePort,
+//         DS, ST, EV, RS,
+//         allDCTypes,
+//         getDefaultDC,
+//         getDataCenter } from './knownDataCenters';
+
+import * as knownDataCenters from './knownDataCenters';
 
 import {Quake, Magnitude, Origin, Arrival, Pick} from './quakeml';
 
@@ -35,19 +40,11 @@ import {Seismogram } from './seismogram';
 /* re-export */
 export  { moment,
           Qty,
+          createComplex,
           checkStringOrDate,
-          cleanUnit,
+          cleanUnitName,
           UNITS,
-          knownDataCentersJsonURL,
-          getKnownDataCenters,
-          updateKnownDataCenters,
-          doesSupport,
-          serviceHost,
-          servicePort,
-          DS, ST, EV, RS,
-          allDCTypes,
-          getDefaultDC,
-          getDataCenter,
+          knownDataCenters,
           Quake,
           Magnitude,
           Origin,
@@ -65,15 +62,5 @@ export  { moment,
           CoefficientsFilter,
           Decimation,
           Gain,
-          Seismogram };
-
-
-// allow overriding the complex object to use
-// if OregonDSP is loaded we want to use
-// its Complex instead of the simple one defined here
-export function createComplex(real, imag) {
-  return {
-    real: real,
-    imag: imag
-  };
-}
+          Seismogram,
+          hasArgs, hasNoArgs, isStringArg, isNumArg };

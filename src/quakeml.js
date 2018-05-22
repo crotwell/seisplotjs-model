@@ -1,3 +1,5 @@
+// flow
+
 import { checkStringOrDate } from './util';
 
 // QuakeML classes
