@@ -1,6 +1,6 @@
-// flow
+// @flow
 
-import { moment, checkStringOrDate } from './util';
+import { moment, checkStringOrDate, hasArgs, hasNoArgs, isStringArg } from './util';
 
 /**
 * A Seismogram object.
@@ -9,14 +9,26 @@ import { moment, checkStringOrDate } from './util';
 * @param {moment} start start time of seismogrm as a momentjs moment in utc or a string that can be parsed
 */
 export class Seismogram {
-  constructor(yArray, sampleRate, start) {
+  /** @private */
+  _y: Array<number>;
+  /** @private */
+  _sampleRate:number;
+  /** @private */
+  _start:moment;
+  /** @private */
+  _networkCode:string;
+  /** @private */
+  _stationCode:string;
+  /** @private */
+  _locCode:string;
+  /** @private */
+  _channelCode:string;
+  /** @private */
+  _yUnit:string;
+  constructor(yArray:Array<number>, sampleRate: number, start: moment) {
     this._y = yArray;
     this._sampleRate = sampleRate;
     this._start = checkStringOrDate(start);
-    this._netCode = null;
-    this._staCode = null;
-    this._locCode = null;
-    this._chanCode = null;
     this._yUnit = 'count';
   }
 /**
@@ -25,60 +37,125 @@ export class Seismogram {
  * If undefined, returns the sampleRate.
  * @returns {number} the sample rate in hertz or this.
  */
-  sampleRate(value) {
-    return arguments.length ? (this._sampleRate = value, this) : this._sampleRate;
+  sampleRate(value?: number): number | Seismogram {
+    if (hasNoArgs(value)) {
+      return this._sampleRate;
+    } else if (hasArgs(value)) {
+      this._sampleRate = value;
+      return this;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  start(value) {
-    return arguments.length ? (this._start = checkStringOrDate(value), this) : this._start;
+  start(value?: moment) :moment | Seismogram {
+    if (hasNoArgs(value)) {
+      return this._start;
+    } else if (hasArgs(value)) {
+      this._start = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
+    }
   }
-  end() {
+  end() :moment {
     return this.timeOfSample(this.numPoints()-1);
   }
-  numPoints() {
+  numPoints() :number {
     return this._y.length;
   }
-  netCode(value) {
-    return arguments.length ? (this._netCode = value, this) : this._netCode;
+  netCode(value?: string) :string | Seismogram {
+    return this.networkCode(value);
   }
-  staCode(value) {
-    return arguments.length ? (this._staCode = value, this) : this._staCode;
+  networkCode(value?: string) :string | Seismogram {
+    if (isStringArg(value)) {
+      this._networkCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._networkCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  locId(value) {
+  staCode(value?: string) :string | Seismogram {
+    return this.stationCode(value);
+  }
+  stationCode(value?: string) :string | Seismogram {
+    if (isStringArg(value)) {
+      this._stationCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._stationCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
+  }
+  locId(value?: string) :string | Seismogram {
     return this.locCode(value);
   }
-  locCode(value) {
-    return arguments.length ? (this._locCode = value, this) : this._locCode;
+  locCode(value?: string) :string | Seismogram {
+    if (isStringArg(value)) {
+      this._locCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._locCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  chanCode(value) {
-    return arguments.length ? (this._chanCode = value, this) : this._chanCode;
+  chanCode(value?: string) :string | Seismogram {
+    return this.channelCode(value);
   }
-  yUnit(value) {
-    return arguments.length ? (this._yUnit = value, this) : this._yUnit;
+  channelCode(value?: string) :string | Seismogram {
+    if (isStringArg(value)) {
+      this._channelCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._channelCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  y(value) {
-    return arguments.length ? (this._y = value, this) : this._y;
+  yUnit(value?: string) :string | Seismogram {
+    if (isStringArg(value)) {
+      this._yUnit = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._yUnit;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  yAtIndex(i) {
+  y(value?: Array<number>) : Array<number> | Seismogram {
+    if (hasArgs(value)) {
+      this._y = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._y;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
+  }
+  yAtIndex(i: number) :number {
     return this._y[i];
   }
 
-  timeOfSample(i) {
+  timeOfSample(i:number ) :moment {
     return moment.utc(this._start).add(i/this._sampleRate, 'seconds');
   }
-  codes()  {
-    return this._netCode+"."+this._staCode+"."+this._locCode+"."+this._chanCode;
+  codes() :string {
+    return this._networkCode+"."+this._stationCode+"."+this._locCode+"."+this._channelCode;
   }
-  seisId() {
-   return (this.codes()+"_"+this._start.toISOString()+"_"+this._end.toISOString()).replace(/\./g,'_').replace(/:/g,'');
+  seisId() :string {
+   return (this.codes()+"_"+this._start.toISOString()+"_"+this.end().toISOString()).replace(/\./g,'_').replace(/:/g,'');
   }
-  clone() {
-    let out = new Seismogram(this.y().slice(),
-                          this.sampleRate(),
-                          this.start());
-    out._netCode = this._netCode;
-    out._staCode = this._staCode;
+  clone():Seismogram {
+    let out = new Seismogram(this._y.slice(),
+                          this._sampleRate,
+                          moment.utc(this._start));
+    out._networkCode = this._networkCode;
+    out._stationCode = this._stationCode;
     out._locCode = this._locCode;
-    out._chanCode = this._chanCode;
+    out._channelCode = this._channelCode;
     return out;
   }
 }

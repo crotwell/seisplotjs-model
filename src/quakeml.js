@@ -1,117 +1,381 @@
-// flow
+// @flow
 
-import { checkStringOrDate } from './util';
+import { checkStringOrDate, hasArgs, hasNoArgs, isStringArg, isNumArg } from './util';
+
+// flow type for moment type
+import { moment } from './util';
 
 // QuakeML classes
 
 export class Quake {
+  /** @private */
+  _eventid: string;
+  /** @private */
+  _publicID: string;
+  /** @private */
+  _time: moment;
+  /** @private */
+  _latitude: number;
+  /** @private */
+  _longitude: number;
+  /** @private */
+  _depth: number;
+  /** @private */
+  _description: string;
+  /** @private */
+  _magnitude: Magnitude;
+  /** @private */
+  _magnitudeList: Array<Magnitude>;
+  /** @private */
+  _originList: Array<Origin>;
+  /** @private */
+  _arrivalList: Array<Arrival>;
+  /** @private */
+  _pickList: Array<Pick>;
+
   constructor() {
 // what is essential???
   }
-  eventid(value) {
-    return arguments.length ? (this._eventid = value, this) : this._eventid;
+  eventid(value?: string) :string | Quake {
+    if (isStringArg(value)) {
+      this._eventid = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._eventid;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  time(value) {
-    return arguments.length ? (this._time = checkStringOrDate(value), this) : this._time;
+  publicID(value?: string) :string | Quake {
+    if (isStringArg(value)) {
+      this._publicID = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._publicID;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  latitude(value) {
-    return arguments.length ? (this._latitude = value, this) : this._latitude;
+  time(value?: moment): moment | Quake {
+    if (hasNoArgs(value)) {
+      return this._time;
+    } else if (hasArgs(value)) {
+      this._time = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
+    }
   }
-  longitude(value) {
-    return arguments.length ? (this._longitude = value, this) : this._longitude;
+  latitude(value?: number): number | Quake {
+    if (isNumArg(value)) {
+      this._latitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._latitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  depth(value) {
-    return arguments.length ? (this._depth = value, this) : this._depth;
+  longitude(value?: number): number | Quake {
+    if (isNumArg(value)) {
+      this._longitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._longitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  description(value) {
-    return arguments.length ? (this._description = value, this) : this._description;
+  depth(value?: number): number | Quake {
+    if (isNumArg(value)) {
+      this._depth = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._depth;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  magnitude(value) {
-    return arguments.length ? (this._magnitude = value, this) : this._magnitude;
+  description(value?: string) :string | Quake {
+    if (isStringArg(value)) {
+      this._description = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._description;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  originList(value) {
-    return arguments.length ? (this._originList = value, this) : this._originList;
+  magnitude(value?: Magnitude): Magnitude | Quake {
+    if (hasArgs(value)) {
+      this._magnitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._magnitude;
+    } else {
+      throw new Error('value argument is optional or Magnitude, but was '+typeof value);
+    }
   }
-  magnitudeList(value) {
-    return arguments.length ? (this._magnitudeList = value, this) : this._magnitudeList;
+  originList(value?: Array<Origin>): Array<Origin> | Quake {
+    if (hasArgs(value)) {
+      this._originList = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._originList;
+    } else {
+      throw new Error('value argument is optional or Array<Origin>, but was '+typeof value);
+    }
   }
-  arrivals(value) {
-    return arguments.length ? (this._arrivals = value, this) : this._arrivals;
+  magnitudeList(value?: Array<Magnitude>): Array<Magnitude> | Quake {
+    if (hasArgs(value)) {
+      this._magnitudeList = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._magnitudeList;
+    } else {
+      throw new Error('value argument is optional or Array<Magnitude>, but was '+typeof value);
+    }
   }
-  picks(value) {
-    return arguments.length ? (this._picks = value, this) : this._picks;
+  arrivals(value?: Array<Arrival>): Array<Arrival> | Quake {
+    return this.arrivalList(value);
+  }
+  arrivalList(value?: Array<Arrival>): Array<Arrival> | Quake {
+    if (hasArgs(value)) {
+      this._arrivalList = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._arrivalList;
+    } else {
+      throw new Error('value argument is optional or Array<Arrival>, but was '+typeof value);
+    }
+  }
+  picks(value?: Array<Pick>): Array<Pick> | Quake {
+    return this.pickList(value);
+  }
+  pickList(value?: Array<Pick>): Array<Pick> | Quake {
+    if (hasArgs(value)) {
+      this._pickList = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._pickList;
+    } else {
+      throw new Error('value argument is optional or Array<Pick>, but was '+typeof value);
+    }
   }
 }
 export class Origin {
+  /** @private */
+  _time: moment;
+  /** @private */
+  _latitude: number;
+  /** @private */
+  _longitude: number;
+  /** @private */
+  _depth: number;
+
   constructor() {
 // what is essential???
   }
-  time(value) {
-    return arguments.length ? (this._time = checkStringOrDate(value), this) : this._time;
+  time(value?: moment): moment | Origin {
+    if (hasNoArgs(value)) {
+      return this._time;
+    } else if (hasArgs(value)) {
+      this._time = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
+    }
   }
-  latitude(value) {
-    return arguments.length ? (this._latitude = value, this) : this._latitude;
+  latitude(value?: number): number | Origin {
+    if (isNumArg(value)) {
+      this._latitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._latitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  longitude(value) {
-    return arguments.length ? (this._longitude = value, this) : this._longitude;
+  longitude(value?: number): number | Origin {
+    if (isNumArg(value)) {
+      this._longitude = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._longitude;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  depth(value) {
-    return arguments.length ? (this._depth = value, this) : this._depth;
+  depth(value?: number): number | Origin {
+    if (isNumArg(value)) {
+      this._depth = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._depth;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
 }
 export class Magnitude {
-  constructor(mag, type) {
+  /** @private */
+  _mag: number;
+  /** @private */
+  _type: string;
+
+  constructor(mag: number, type: string) {
     this._mag = mag;
     this._type = type;
   }
-  mag(value) {
-    return arguments.length ? (this._mag = value, this) : this._mag;
+  mag(value?: number): number | Magnitude {
+    if (isNumArg(value)) {
+      this._mag = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._mag;
+    } else {
+      throw new Error('value argument is optional or number, but was '+typeof value);
+    }
   }
-  type(value) {
-    return arguments.length ? (this._type = value, this) : this._type;
+  type(value?: string) :string | Magnitude {
+    if (isStringArg(value)) {
+      this._type = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._type;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
 }
 
 export class Arrival {
-  constructor(phase, pick) {
+  /** @private */
+  _phase: string;
+  /** @private */
+  _pick: Pick;
+  /** @private */
+  _publicID: string;
+
+  constructor(phase: string, pick: Pick) {
     this._phase = phase;
     this._pick = pick;
   }
-  phase(value) {
-    return arguments.length ? (this._phase = value, this) : this._phase;
+  phase(value?: string) :string | Arrival {
+    if (isStringArg(value)) {
+      this._phase = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._phase;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  publicID(value) {
-    return arguments.length ? (this._publicID = value, this) : this._publicID;
+  publicID(value?: string) :string | Arrival {
+    if (isStringArg(value)) {
+      this._publicID = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._publicID;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  pick(value) {
-    return arguments.length ? (this._pick = value, this) : this._pick;
+  pick(value?: Pick) :Pick | Arrival {
+    if (hasArgs(value)) {
+      this._pick = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._pick;
+    } else {
+      throw new Error('value argument is optional or Pick, but was '+typeof value);
+    }
   }
 }
 
 export class Pick {
-  constructor(time, networkCode, stationCode, locationCode, channelCode) {
+  /** @private */
+  _time: moment;
+  /** @private */
+  _networkCode: string;
+  /** @private */
+  _stationCode: string;
+  /** @private */
+  _locationCode: string;
+  /** @private */
+  _channelCode: string;
+  /** @private */
+  _publicID: string;
+  constructor(time: moment,
+      networkCode: string,
+      stationCode:string,
+      locationCode:string,
+      channelCode:string) {
     this._time = checkStringOrDate(time);
     this._networkCode = networkCode;
     this._stationCode = stationCode;
     this._locationCode = locationCode;
     this._channelCode = channelCode;
   }
-  publicID(value) {
-    return arguments.length ? (this._publicID = value, this) : this._publicID;
+  publicID(value?: string) :string | Pick {
+    if (isStringArg(value)) {
+      this._publicID = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._publicID;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  time(value) {
-    return arguments.length ? (this._time = checkStringOrDate(value), this) : this._time;
+  time(value?: moment): moment | Pick {
+    if (hasNoArgs(value)) {
+      return this._time;
+    } else if (hasArgs(value)) {
+      this._time = checkStringOrDate(value);
+      return this;
+    } else {
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
+    }
   }
-  networkCode(value) {
-    return arguments.length ? (this._networkCode = value, this) : this._networkCode;
+
+  networkCode(value?: string) :string | Pick {
+    if (isStringArg(value)) {
+      this._networkCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._networkCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  stationCode(value) {
-    return arguments.length ? (this._stationCode = value, this) : this._stationCode;
+  stationCode(value?: string) :string | Pick {
+    if (isStringArg(value)) {
+      this._stationCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._stationCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  locationCode(value) {
-    return arguments.length ? (this._locationCode = value, this) : this._locationCode;
+  locationCode(value?: string) :string | Pick {
+    if (isStringArg(value)) {
+      this._locationCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._locationCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
-  channelCode(value) {
-    return arguments.length ? (this._channelCode = value, this) : this._channelCode;
+  channelCode(value?: string) :string | Pick {
+    if (isStringArg(value)) {
+      this._channelCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._channelCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
   }
 }

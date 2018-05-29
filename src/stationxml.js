@@ -40,7 +40,7 @@ export class Network {
     } else if (hasNoArgs(value)) {
       return this._networkCode;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
 
@@ -55,7 +55,7 @@ export class Network {
       this._startDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   endDate(value?: moment): moment | Network {
@@ -65,7 +65,7 @@ export class Network {
       this._endDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   restrictedStatus(value?: string): string | Network {
@@ -75,7 +75,7 @@ export class Network {
     } else if (hasNoArgs(value)) {
       return this._restrictedStatus;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   description(value?: string): string | Network {
@@ -85,7 +85,7 @@ export class Network {
     } else if (hasNoArgs(value)) {
       return this._description;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   stations(value?: Array<Station>): Array<Station> | Network {
@@ -137,7 +137,7 @@ export class Station {
     } else if (hasNoArgs(value)) {
       return this._stationCode;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   startDate(value?: moment): moment | Station {
@@ -147,7 +147,7 @@ export class Station {
       this._startDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   endDate(value?: moment): moment | Station {
@@ -157,7 +157,7 @@ export class Station {
       this._endDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   restrictedStatus(value?: string): string | Station {
@@ -167,7 +167,7 @@ export class Station {
     } else if (hasNoArgs(value)) {
       return this._restrictedStatus;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   name(value?: string): string | Station {
@@ -177,7 +177,7 @@ export class Station {
     } else if (hasNoArgs(value)) {
       return this._name;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   latitude(value?: number): number | Station {
@@ -187,27 +187,27 @@ export class Station {
     } else if (hasNoArgs(value)) {
       return this._latitude;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
-  longitude(value?: number) {
+  longitude(value?: number): number | Station {
     if (isNumArg(value)) {
       this._longitude = value;
       return this;
     } else if (hasNoArgs(value)) {
       return this._longitude;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
-  elevation(value?: number) {
+  elevation(value?: number): number | Station {
     if (isNumArg(value)) {
       this._elevation = value;
       return this;
     } else if (hasNoArgs(value)) {
       return this._elevation;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   channels(value?: Array<Channel>): Array<Channel> | Station {
@@ -222,7 +222,7 @@ export class Channel {
     /** @private */
   _station: Station;
     /** @private */
-  _locationId: string;
+  _locationCode: string;
     /** @private */
   _channelCode: string;
     /** @private */
@@ -247,10 +247,10 @@ export class Channel {
   _sampleRate: number;
     /** @private */
   _response: Response;
-  constructor(station: Station, channelCode: string, locationId: string) {
+  constructor(station: Station, channelCode: string, locationCode: string) {
     this._station = station;
     this._channelCode = channelCode;
-    this._locationId = locationId;
+    this._locationCode = locationCode;
   }
   station(value?: Station): Station | Channel {
     return (value instanceof Station) ? (this._station = value, this) : this._station;
@@ -262,21 +262,21 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._channelCode;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
-    }
-  }
-  locationId(value?: string): string | Channel {
-    if (isStringArg(value)) {
-      this._locationId = value;
-      return this;
-    } else if (hasNoArgs(value)) {
-      return this._locationId;
-    } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   locationCode(value?: string): string | Channel {
-    return this.locationId(value);
+    if (isStringArg(value)) {
+      this._locationCode = value;
+      return this;
+    } else if (hasNoArgs(value)) {
+      return this._locationCode;
+    } else {
+      throw new Error('value argument is optional or string, but was '+typeof value);
+    }
+  }
+  locationId(value?: string): string | Channel {
+    return this.locationCode(value);
   }
   startDate(value: moment): moment | Channel {
     if (hasNoArgs(value)) {
@@ -285,7 +285,7 @@ export class Channel {
       this._startDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   endDate(value: moment): moment | Channel {
@@ -295,7 +295,7 @@ export class Channel {
       this._endDate = checkStringOrDate(value);
       return this;
     } else {
-      throw new Error('value argument is optional or moment or string, but was '+value);
+      throw new Error('value argument is optional or moment or string, but was '+typeof value);
     }
   }
   restrictedStatus(value?: string): string | Channel {
@@ -305,7 +305,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._restrictedStatus;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   latitude(value?: number): number | Channel {
@@ -315,7 +315,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._latitude;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   longitude(value?: number): number | Channel {
@@ -325,7 +325,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._longitude;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   elevation(value?: number): number | Channel {
@@ -335,7 +335,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._elevation;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   depth(value?: number): number | Channel {
@@ -345,7 +345,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._depth;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   azimuth(value?: number): number | Channel {
@@ -355,7 +355,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._azimuth;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   dip(value?: number): number | Channel {
@@ -365,7 +365,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._dip;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   sampleRate(value?: number): number | Channel {
@@ -375,7 +375,7 @@ export class Channel {
     } else if (hasNoArgs(value)) {
       return this._sampleRate;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   instrumentSensitivity(value: InstrumentSensitivity): InstrumentSensitivity | Channel {
@@ -400,7 +400,7 @@ export class Channel {
   }
 
   codes(): string {
-    return this.station().codes()+"."+this._locationId+"."+this._channelCode;
+    return this.station().codes()+"."+this._locationCode+"."+this._channelCode;
   }
 }
 
@@ -426,7 +426,7 @@ export class InstrumentSensitivity {
     } else if (hasNoArgs(value)) {
       return this._sensitivity;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   frequency(value?: number): number | InstrumentSensitivity {
@@ -436,7 +436,7 @@ export class InstrumentSensitivity {
     } else if (hasNoArgs(value)) {
       return this._frequency;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   inputUnits(value?: string): string | InstrumentSensitivity {
@@ -446,7 +446,7 @@ export class InstrumentSensitivity {
     } else if (hasNoArgs(value)) {
       return this._inputUnits;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   outputUnits(value?: string): string | InstrumentSensitivity {
@@ -456,7 +456,7 @@ export class InstrumentSensitivity {
     } else if (hasNoArgs(value)) {
       return this._outputUnits;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
 
@@ -521,7 +521,7 @@ export class AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._name;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   description(value?: string) {
@@ -531,7 +531,7 @@ export class AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._description;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   inputUnits(value?: string) {
@@ -541,7 +541,7 @@ export class AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._inputUnits;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   outputUnits(value?: string) {
@@ -551,7 +551,7 @@ export class AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._outputUnits;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
 }
@@ -577,7 +577,7 @@ export class PolesZeros extends AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._pzTransferFunctionType;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   normalizationFactor(value?: number) {
@@ -587,7 +587,7 @@ export class PolesZeros extends AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._normalizationFactor;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   normalizationFrequency(value?: number) {
@@ -597,7 +597,7 @@ export class PolesZeros extends AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._normalizationFrequency;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   zeros(value: Array<ComplexType>) {
@@ -623,7 +623,7 @@ export class FIR extends AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._symmetry;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   numerator(value: Array<ComplexType>) {
@@ -648,7 +648,7 @@ export class CoefficientsFilter extends AbstractFilterType {
     } else if (hasNoArgs(value)) {
       return this._cfTransferFunction;
     } else {
-      throw new Error('value argument is optional or string, but was '+value);
+      throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
   numerator(value: Array<ComplexType>) {
@@ -677,7 +677,7 @@ export class Decimation {
     } else if (hasNoArgs(value)) {
       return this._inputSampleRate;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   factor(value?: number) {
@@ -687,7 +687,7 @@ export class Decimation {
     } else if (hasNoArgs(value)) {
       return this._factor;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   offset(value?: number) {
@@ -697,7 +697,7 @@ export class Decimation {
     } else if (hasNoArgs(value)) {
       return this._offset;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   delay(value?: number) {
@@ -707,7 +707,7 @@ export class Decimation {
     } else if (hasNoArgs(value)) {
       return this._delay;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   correction(value?: number) {
@@ -717,7 +717,7 @@ export class Decimation {
     } else if (hasNoArgs(value)) {
       return this._correction;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
 }
@@ -734,7 +734,7 @@ export class Gain {
     } else if (hasNoArgs(value)) {
       return this._value;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
   frequency(value?: number) {
@@ -744,7 +744,7 @@ export class Gain {
     } else if (hasNoArgs(value)) {
       return this._frequency;
     } else {
-      throw new Error('value argument is optional or number, but was '+value);
+      throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
 
