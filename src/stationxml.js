@@ -487,10 +487,10 @@ export class Stage {
     /** @private */
   _filter: AbstractFilterType;
     /** @private */
-  _decimation: Decimation;
+  _decimation: Decimation | null;
     /** @private */
   _gain: Gain;
-  constructor(filter: AbstractFilterType, decimation: Decimation, gain: Gain) {
+  constructor(filter: AbstractFilterType, decimation: Decimation | null, gain: Gain) {
     this._filter = filter;
     this._decimation = decimation;
     this._gain = gain;
@@ -560,7 +560,6 @@ export class AbstractFilterType {
     }
   }
 }
-
 export class PolesZeros extends AbstractFilterType {
     /** @private */
   _pzTransferFunctionType: string;
@@ -617,7 +616,7 @@ export class FIR extends AbstractFilterType {
   /** @private */
   _symmetry: string;
     /** @private */
-  _numerator: Array<ComplexType>;
+  _numerator: Array<number>;
   constructor(inputUnits: string, outputUnits: string) {
     super(inputUnits, outputUnits);
   }
@@ -631,7 +630,7 @@ export class FIR extends AbstractFilterType {
       throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
-  numerator(value: Array<ComplexType>) {
+  numerator(value: Array<number>) {
     return arguments.length ? (this._numerator = value, this) : this._numerator;
   }
 }
@@ -640,9 +639,9 @@ export class CoefficientsFilter extends AbstractFilterType {
   /** @private */
   _cfTransferFunction: string;
   /** @private */
-  _numerator: Array<ComplexType>;
+  _numerator: Array<number>;
   /** @private */
-  _denominator: Array<ComplexType>;
+  _denominator: Array<number>;
   constructor(inputUnits: string, outputUnits: string) {
     super(inputUnits, outputUnits);
   }
@@ -656,10 +655,10 @@ export class CoefficientsFilter extends AbstractFilterType {
       throw new Error('value argument is optional or string, but was '+typeof value);
     }
   }
-  numerator(value: Array<ComplexType>) {
+  numerator(value: Array<number>) {
     return arguments.length ? (this._numerator= value, this) : this._numerator;
   }
-  denominator(value: Array<ComplexType>) {
+  denominator(value: Array<number>) {
     return arguments.length ? (this._denominator= value, this) : this._denominator;
   }
 }
