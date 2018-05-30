@@ -467,8 +467,13 @@ export class Response {
   _instrumentSensitivity: InstrumentSensitivity;
     /** @private */
   _stages: Array<Stage>;
-  constructor(instrumentSensitivity: InstrumentSensitivity) {
-    this._instrumentSensitivity = instrumentSensitivity;
+  constructor(instrumentSensitivity?: InstrumentSensitivity, stages?: Array<Stage>) {
+    if (instrumentSensitivity) {
+      this._instrumentSensitivity = instrumentSensitivity;
+    }
+    if (stages) {
+      this._stages = stages;
+    }
   }
   instrumentSensitivity(value?: InstrumentSensitivity) {
     return (value instanceof InstrumentSensitivity) ? (this._instrumentSensitivity = value, this) : this._instrumentSensitivity;
