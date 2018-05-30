@@ -1,7 +1,7 @@
 // @flow
 
 import { moment, createComplex, checkStringOrDate, cleanUnitName, UNITS,
-         hasArgs, hasNoArgs, isStringArg, isNumArg } from './util';
+         hasArgs, hasNoArgs, isStringArg, isNumArg, stringify } from './util';
 
 //import { Qty } from 'js-quantities';
 import Qty from 'js-quantities';
@@ -63,4 +63,4 @@ export  { moment,
           Decimation,
           Gain,
           Seismogram,
-          hasArgs, hasNoArgs, isStringArg, isNumArg };
+          hasArgs, hasNoArgs, isStringArg, isNumArg, stringify };

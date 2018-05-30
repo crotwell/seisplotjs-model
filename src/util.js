@@ -22,10 +22,32 @@ export function hasNoArgs(value: any): boolean %checks {
   return arguments.length == 0 || typeof value === 'undefined';
 }
 export function isStringArg(value: any): boolean %checks {
-  return hasArgs(value) && typeof value === 'string';
+  return arguments.length != 0 && typeof value === 'string';
 }
 export function isNumArg(value: any): boolean %checks {
-  return hasArgs(value) && typeof value === 'number';
+  return typeof value === 'number';
+}
+export function stringify(value: mixed) {
+  if (typeof value === 'string') {
+    return value;
+  } else if (typeof value === 'boolean') {
+    return value ? "true" : "false";
+  } else if (typeof value === 'undefined') {
+    return "undefined";
+  } else if (typeof value === 'function') {
+    return "function "+value.name;
+  } else if (typeof value === 'object') {
+    if (value) {
+      return value.toString();
+    } else {
+      return "null";
+    }
+// symbol not yet supported by flow
+//  } else if (typeof value === 'symbol') {
+//    return value.toString();
+  } else {
+    return "<unknown???>";
+  }
 }
 
 /** converts the input value is a moment, throws Error if not
