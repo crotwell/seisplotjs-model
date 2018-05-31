@@ -1,8 +1,12 @@
 // @flow
 
+/*global window */
+
 import moment from 'moment';
-console.log("setting global moment");
-window.moment = moment; // allow moment-timezone to find it
+if (typeof window !== 'undefined') {
+  console.log("setting global moment, this is dumb...");
+  window.moment = moment; // allow moment-timezone to find it
+}
 import momentTimezone from 'moment-timezone';
 import Qty from 'js-quantities';
 
