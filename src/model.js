@@ -17,7 +17,7 @@ import Qty from 'js-quantities';
 //         getDefaultDC,
 //         getDataCenter } from './knownDataCenters';
 
-import * as knownDataCenters from './knownDataCenters';
+import { knownDataCenters } from './knownDataCenters';
 
 import {Quake, Magnitude, Origin, Arrival, Pick} from './quakeml';
 

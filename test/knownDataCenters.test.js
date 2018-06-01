@@ -1,10 +1,18 @@
 import * as model from '../src/model';
-import fetch from 'node-fetch';
-jest.mock('node-fetch');
+require('isomorphic-fetch');
+
+
+test("fetch directly", () => {
+  return fetch(model.knownDataCenters.knownDataCentersJsonURL)
+  .then(response => {
+    expect(response.status).toBe(200);
+    expect(response.json()).toBeDefined();
+  });
+});
+
 
 test("load known DCs", () => {
-  // can't due to no fetch in node...
-  //let knownDCs = model.knownDataCenters.getKnownDataCenters();
-  let knownDCs = model.knownDataCenters;
-  expect(knownDCs).toBeDefined();
+  return model.knownDataCenters.getKnownDataCenters().then(knownDCs => {
+    expect(knownDCs).toBeDefined();
+  });
 });
