@@ -82,6 +82,16 @@ export function cleanUnitName(u: string): string {
   }
 }
 
+/** converts to ISO8601 but removes the trailing Z as FDSN web services
+  do not allow that. */
+export function toIsoWoZ(date:moment) :string {
+  let out = date.toISOString();
+  return out.substring(0, out.length-1);
+}
+
+export function isDef(v: mixed) :boolean {
+  return typeof v !== 'undefined' && v !== null;
+}
 
 // common units
 export const UNITS = {
