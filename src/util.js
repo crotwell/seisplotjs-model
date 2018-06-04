@@ -47,7 +47,11 @@ export function stringify(value: mixed) {
     return "function "+value.name;
   } else if (typeof value === 'object') {
     if (value) {
-      return value.toString();
+      if (value instanceof moment) {
+        return value.toISOString();
+      } else {
+        return value.toString();
+      }
     } else {
       return "null";
     }

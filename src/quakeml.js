@@ -1,6 +1,6 @@
 // @flow
 
-import { checkStringOrDate, hasArgs, hasNoArgs, isStringArg, isNumArg } from './util';
+import { checkStringOrDate, hasArgs, hasNoArgs, isStringArg, isNumArg, stringify } from './util';
 
 // flow type for moment type
 import { moment } from './util';
@@ -163,7 +163,11 @@ export class Quake {
     }
   }
   toString() {
-    return this.time().toISOString()+' '+this.latitude()+" "+this.longitude()+' '+this.depth()+' '+this.magnitude();
+    return stringify(this.time())
+    +' '+stringify(this.latitude())
+    +" "+stringify(this.longitude())
+    +' '+stringify(this.depth())
+    +' '+this.magnitude().toString();
   }
 }
 export class Origin {
@@ -220,7 +224,10 @@ export class Origin {
     }
   }
   toString() {
-    return this.time().toISOString()+' '+this.latitude()+" "+this.longitude()+' '+this.depth();
+    return stringify(this.time())
+      +' '+stringify(this.latitude())
+      +" "+stringify(this.longitude())
+      +' '+stringify(this.depth());
   }
 }
 export class Magnitude {
@@ -254,7 +261,7 @@ export class Magnitude {
     }
   }
   toString() {
-    return this.mag()+" "+this.type();
+    return stringify(this.mag())+" "+stringify(this.type());
   }
 }
 
