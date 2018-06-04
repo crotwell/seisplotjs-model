@@ -31,8 +31,13 @@ export function isStringArg(value: any): boolean %checks {
 export function isNumArg(value: any): boolean %checks {
   return typeof value === 'number';
 }
+/** String representation of input. THis is kind of dumb but makes
+ *  flow happier.
+ */
 export function stringify(value: mixed) {
   if (typeof value === 'string') {
+    return value;
+  } else if (typeof value === 'number') {
     return value;
   } else if (typeof value === 'boolean') {
     return value ? "true" : "false";
@@ -50,7 +55,7 @@ export function stringify(value: mixed) {
 //  } else if (typeof value === 'symbol') {
 //    return value.toString();
   } else {
-    return "<unknown???>";
+    return "<unknown"+(typeof value)+"???>";
   }
 }
 
