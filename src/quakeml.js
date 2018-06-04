@@ -162,6 +162,9 @@ export class Quake {
       throw new Error('value argument is optional or Array<Pick>, but was '+typeof value);
     }
   }
+  toString() {
+    return this.time().toISOString()+' '+this.latitude()+" "+this.longitude()+' '+this.depth()+' '+this.magnitude();
+  }
 }
 export class Origin {
   /** @private */
@@ -216,6 +219,9 @@ export class Origin {
       throw new Error('value argument is optional or number, but was '+typeof value);
     }
   }
+  toString() {
+    return this.time().toISOString()+' '+this.latitude()+" "+this.longitude()+' '+this.depth();
+  }
 }
 export class Magnitude {
   /** @private */
@@ -246,6 +252,9 @@ export class Magnitude {
     } else {
       throw new Error('value argument is optional or string, but was '+typeof value);
     }
+  }
+  toString() {
+    return this.mag()+" "+this.type();
   }
 }
 
