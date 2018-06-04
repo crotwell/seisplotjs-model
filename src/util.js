@@ -34,11 +34,11 @@ export function isNumArg(value: any): boolean %checks {
 /** String representation of input. THis is kind of dumb but makes
  *  flow happier.
  */
-export function stringify(value: mixed) {
+export function stringify(value: mixed): string {
   if (typeof value === 'string') {
     return value;
   } else if (typeof value === 'number') {
-    return value;
+    return value.toString();
   } else if (typeof value === 'boolean') {
     return value ? "true" : "false";
   } else if (typeof value === 'undefined') {
