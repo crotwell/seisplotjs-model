@@ -4,7 +4,6 @@
   "description": "Classes for various objects used in seisplotjs packages.",
   "main": "./lib/model.js",
   "dependencies": {
-    "js-quantities": "^1.7.2",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.16"
   },

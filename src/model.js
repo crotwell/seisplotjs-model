@@ -1,10 +1,8 @@
 // @flow
 
-import { moment, createComplex, checkStringOrDate, cleanUnitName, UNITS,
+import { moment, createComplex, checkStringOrDate,
          hasArgs, hasNoArgs, isStringArg, isNumArg, stringify, toIsoWoZ, isDef } from './util';
 
-//import { Qty } from 'js-quantities';
-import Qty from 'js-quantities';
 
 // import { knownDataCentersJsonURL,
 //         getKnownDataCenters,
@@ -39,11 +37,8 @@ import {Seismogram } from './seismogram';
 
 /* re-export */
 export  { moment,
-          Qty,
           createComplex,
           checkStringOrDate,
-          cleanUnitName,
-          UNITS,
           knownDataCenters,
           Quake,
           Magnitude,

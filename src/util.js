@@ -8,7 +8,6 @@ if (typeof window !== 'undefined') {
   window.moment = moment; // allow moment-timezone to find it
 }
 import momentTimezone from 'moment-timezone';
-import Qty from 'js-quantities';
 
 console.assert(moment === momentTimezone, "Two moments!!!");
 
@@ -78,13 +77,6 @@ export function checkStringOrDate(d: any): moment {
   }
   throw new Error("unknown date type: "+d+" "+(typeof d));
 }
-export function cleanUnitName(u: string): string {
-  if (u instanceof String || typeof u === "string") {
-    return new Qty(u.replace('**', ''));
-  } else {
-    throw new Error("Unit name is not a string: '"+u+"'");
-  }
-}
 
 /** converts to ISO8601 but removes the trailing Z as FDSN web services
   do not allow that. */
@@ -96,14 +88,6 @@ export function toIsoWoZ(date:moment) :string {
 export function isDef(v: mixed) :boolean {
   return typeof v !== 'undefined' && v !== null;
 }
-
-// common units
-export const UNITS = {
-  COUNT: new Qty('count'),
-  METER: new Qty('m'),
-  METER_PER_SECOND: new Qty('m/s'),
-  METER_PER_SECOND_PER_SECOND: new Qty('m/s2'),
-};
 
 
 export type ComplexType = {
