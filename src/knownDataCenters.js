@@ -61,7 +61,6 @@ export const knownDataCenters = {
    *  and supports that is an array of type and version.
    *   Returns a Promise that resolves to the returned json. */
   getKnownDataCenters(): Promise<KnownDCS_JSON> {
-    console.log("before getKnownDataCenters "+this.knownDataCentersJsonURL);
     if ( ! knownDCs) {
       knownDCs = fetch(this.knownDataCentersJsonURL)
         .then(response => {

@@ -4,7 +4,7 @@
 
 import moment from 'moment';
 if (typeof window !== 'undefined') {
-  console.log("setting global moment, this is dumb...");
+  console.log("setting global moment for momentTimezone, this is dumb...");
   window.moment = moment; // allow moment-timezone to find it
 }
 import momentTimezone from 'moment-timezone';
