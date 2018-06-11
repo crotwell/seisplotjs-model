@@ -251,6 +251,10 @@ export class Channel {
     this._station = station;
     this._channelCode = channelCode;
     this._locationCode = locationCode;
+    if (! locationCode) {
+      // make sure "null" is encoded as empty string
+      this._locationCode = '';
+    }
   }
   station(value?: Station): Station | Channel {
     return (value instanceof Station) ? (this._station = value, this) : this._station;
