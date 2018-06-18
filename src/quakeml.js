@@ -7,6 +7,9 @@ import { moment } from './util';
 
 // QuakeML classes
 
+/** Represent a QuakeML Event. Renamed to Quake as Event conflicts with
+  * other uses in javascript.
+  */
 export class Quake {
   /** @private */
   _eventid: string;
@@ -170,6 +173,7 @@ export class Quake {
     +' '+this.magnitude().toString();
   }
 }
+/** Represents a QuakeML Origin. */
 export class Origin {
   /** @private */
   _time: moment;
@@ -230,6 +234,8 @@ export class Origin {
       +' '+stringify(this.depth());
   }
 }
+/** Represents a QuakeML Magnitude.
+ */
 export class Magnitude {
   /** @private */
   _mag: number;
@@ -265,6 +271,8 @@ export class Magnitude {
   }
 }
 
+/** Represents a QuakeML Arrival, a combination of a Pick with a phase name.
+ */
 export class Arrival {
   /** @private */
   _phase: string;
@@ -309,6 +317,8 @@ export class Arrival {
   }
 }
 
+/** Represents a QuakeML Pick.
+ */
 export class Pick {
   /** @private */
   _time: moment;
