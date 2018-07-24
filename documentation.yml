@@ -1,0 +1,50 @@
+toc:
+  - name: StationXML
+    description: |
+      Objects relating to stations and channels, via StationXML
+  - Network
+  - Station
+  - Channel
+  - Response
+  - InstrumentSensitivity
+  - AbstractFilterType
+  - Stage
+  - PolesZeros
+  - FIR
+  - CoefficientsFilter
+  - Decimation
+  - Gain
+
+  - name: QuakeXML
+    description: |
+      Objects relating to earthquakes, magnitudes, and picks, via QuakeML
+  - Quake
+  - Origin
+  - Magnitude
+  - Arrival
+  - Pick
+
+  - name: Seismogram
+    description: |
+      Seismogram object, related to miniseed and other formats.
+  - Seismogram
+
+  - name: Utility
+    description: |
+      Misc utility functions and other odds and ends.
+  - knownDataCenters
+  - ComplexType
+  - createComplex
+  - moment
+  - hasArgs
+  - hasNoArgs
+  - isStringArg
+  - isNumArg
+  - stringify
+  - checkStringOrDate
+  - toIsoWoZ
+  - isDef
+
+  - name: Other
+    description: |
+      Stuff I forgot to put in the TOC.
