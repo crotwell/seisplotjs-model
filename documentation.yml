@@ -1,4 +1,18 @@
 toc:
+  - name: Usage
+    description: |
+      Generally either
+      ```
+      import * as model from 'seisplotjs-model'
+      model.xxxx
+      ```
+      or
+
+      ```
+      import * as seisplotjs from 'seisplotjs'
+      seisplotjs.model.xxxx
+      ```
+
   - name: StationXML
     description: |
       Objects relating to stations and channels, via StationXML
