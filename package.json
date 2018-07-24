@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint 'src/*.js'",
     "test": "jest",
-    "doc": "documentation build src/knownDataCenters.js src/quakeml.js src/stationxml.js src/seismogram.js src/util.js --github -o docs -f html --document-exported ",
+    "doc": "documentation build --config documentation.yml src/knownDataCenters.js src/quakeml.js src/stationxml.js src/seismogram.js src/util.js --github -o docs -f html --document-exported ",
     "flow": "flow",
     "flow-copy": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:clean": "rimraf lib",
